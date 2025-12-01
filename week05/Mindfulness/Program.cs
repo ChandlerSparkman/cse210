@@ -4,6 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello World! This is the Mindfulness Project.");
+        ListingActivity baseActivity = new ListingActivity("Base Activity", "Just the base activity for testing", 1);
+
+        baseActivity.Run();
     }
 }
