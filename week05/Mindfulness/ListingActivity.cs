@@ -11,9 +11,13 @@ public class ListingActivity : Activity
     };
     Random random = new Random();
 
-    public ListingActivity(string name, string description, int duration) : base(name, description, duration)
+    public ListingActivity()
     {
-        
+        string name = "Listing";
+        string description = "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.";
+        int duration = 70;
+
+        IntializeAttributes(name, description, duration);
     }
 
     public void Run()
@@ -24,14 +28,14 @@ public class ListingActivity : Activity
         string chosenPrompt = GetRandomPrompt();
         Console.WriteLine(chosenPrompt);
       
-        Console.WriteLine("I'll give you 10 seconds to think about it.");
+        Console.Write("Think of your answers... ");
 
-        Thread.Sleep(10000);
+        ShowCountdown(10);
 
         List<string> userInput = GetListFromUser();
 
         Console.Clear();
-        Console.WriteLine($"Prompt: {chosenPrompt}\nAnswers:");
+        Console.WriteLine($"Prompt: {chosenPrompt}\nAnswers ({userInput.Count}):");
         foreach (string answer in userInput)
         {
             Console.WriteLine(answer);
@@ -48,19 +52,32 @@ public class ListingActivity : Activity
     public List<string> GetListFromUser()
     {
         List<string> userInput = new List<string>();
-        DateTime startTime = DateTime.Now;
-        DateTime endTime = startTime.AddSeconds(60);
+        int timeLeft = 60;
+        bool timeUp = false;
 
-        Console.WriteLine("You have 60 seconds! Start listing!");
+        Console.WriteLine("Start listing: ");
 
-        while (DateTime.Now < endTime)
+        Task.Run(() =>
         {
-            Console.Write("");
-            string answer = Console.ReadLine();
-            userInput.Add(answer);
-            Thread.Sleep(50);
-        }
+            while (timeLeft > 0)
+            {
+                Thread.Sleep(1000);
+                timeLeft--;
+            }
 
+            timeUp = true;
+            Console.WriteLine("\nTime's up! Enter anything to continue. ");
+        });
+
+        while (timeUp == false)
+        {
+            string answer = Console.ReadLine();
+            
+            if (timeUp == false)
+            {
+                userInput.Add(answer);
+            }
+        }
         return userInput;
     }
 }

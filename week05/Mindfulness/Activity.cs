@@ -4,7 +4,7 @@ public class Activity
     private string _description;
     private int _duration;
 
-    public Activity(string name, string description, int duration)
+    public void IntializeAttributes(string name, string description, int duration)
     {
         _name = name;
         _description = description;
@@ -42,6 +42,23 @@ public class Activity
             Console.Write("|");
             Thread.Sleep(125);
             Console.Write("\b \b");
+        }
+    }
+
+    public void ShowCountdown(int length)
+    {
+        for (int i = length; i >= 0; i--)
+        {
+            string iString = i.ToString();
+
+            if (i < 10)
+            {
+                iString = " " + iString;
+            }
+
+            Console.Write(iString);
+            Thread.Sleep(1000);
+            Console.Write("\b\b");
         }
     }
 }
